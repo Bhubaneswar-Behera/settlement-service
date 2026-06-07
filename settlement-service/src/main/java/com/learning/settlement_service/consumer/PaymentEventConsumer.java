@@ -1,5 +1,6 @@
 package com.learning.settlement_service.consumer;
 
+import com.learning.settlement_service.common.event.PaymentEvent;
 import com.learning.settlement_service.service.SettlementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +15,10 @@ public class PaymentEventConsumer {
     private final SettlementService settlementService;
 
     @KafkaListener(topics = "payment-events", groupId = "settlement-group")
-    public void consume(String message) {
+    public void consume(PaymentEvent event) {
 
-        log.info("🔥 Received Kafka message: {}", message);
+        log.info("🔥 Received payment event: {}", event.getPaymentId());
 
-        settlementService.settlePayment(message);
+        settlementService.settle(event);
     }
 }

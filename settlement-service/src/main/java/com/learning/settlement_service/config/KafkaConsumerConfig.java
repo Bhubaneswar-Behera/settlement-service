@@ -1,5 +1,6 @@
 package com.learning.settlement_service.config;
 
+import com.learning.settlement_service.common.event.PaymentEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -15,22 +16,31 @@ import java.util.Map;
 public class KafkaConsumerConfig {
 
     @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
+    public ConsumerFactory<String, PaymentEvent> consumerFactory() {
+
+        JsonDeserializer<PaymentEvent> deserializer =
+                new JsonDeserializer<>(PaymentEvent.class);
+        deserializer.addTrustedPackages("*");
 
         Map<String, Object> config = new HashMap<>();
 
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "settlement-group");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer);
 
-        return new DefaultKafkaConsumerFactory<>(config);
+        return new DefaultKafkaConsumerFactory<>(
+                config,
+                new StringDeserializer(),
+                deserializer
+        );
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, PaymentEvent>
+    kafkaListenerContainerFactory() {
 
-        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+        ConcurrentKafkaListenerContainerFactory<String, PaymentEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
 
         factory.setConsumerFactory(consumerFactory());

@@ -1,5 +1,6 @@
 package com.learning.settlement_service.service;
 
+import com.learning.settlement_service.common.event.PaymentEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -7,16 +8,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class SettlementService {
 
-    public void settlePayment(String message) {
+    public void settle(PaymentEvent event) {
 
-        log.info("💰 Starting settlement process");
+        log.info("💰 Settling payment: {}", event.getPaymentId());
+        log.info("💵 Amount: {}", event.getAmount());
+        log.info("💱 Currency: {}", event.getCurrency());
 
-        log.info("📩 Received payment event: {}", message);
-
-        // business logic simulation
-        log.info("🔄 Processing payment settlement...");
-
-        // simulate success
-        log.info("✅ Payment settlement completed successfully");
+        log.info("✅ Settlement completed");
     }
 }

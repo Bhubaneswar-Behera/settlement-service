@@ -1,4 +1,4 @@
-package com.learning.settlement_service.common.event;
+package com.learning.common.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

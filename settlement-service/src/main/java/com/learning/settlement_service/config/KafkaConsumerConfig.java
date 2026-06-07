@@ -1,6 +1,6 @@
 package com.learning.settlement_service.config;
 
-import com.learning.settlement_service.common.event.PaymentEvent;
+import com.learning.common.event.PaymentEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;

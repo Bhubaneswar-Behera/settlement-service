@@ -1,6 +1,6 @@
 package com.learning.settlement_service.service;
 
-import com.learning.settlement_service.common.event.PaymentEvent;
+import com.learning.common.event.PaymentEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

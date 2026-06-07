@@ -14,6 +14,13 @@ public class SettlementService {
         log.info("💵 Amount: {}", event.getAmount());
         log.info("💱 Currency: {}", event.getCurrency());
 
-        log.info("✅ Settlement completed");
+        // 🔥 TEST MODE: force failure for retry testing
+        if (event.getAmount() != null && event.getAmount().intValue() > 1000) {
+            log.warn("⚠️ Simulating failure for retry test");
+            throw new RuntimeException("Simulated failure for retry testing");
+        }
+
+        // 🚀 SUCCESS FLOW
+        log.info("✅ Settlement completed successfully for paymentId={}", event.getPaymentId());
     }
 }
